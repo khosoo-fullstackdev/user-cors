@@ -35,18 +35,21 @@ app.get("/userNames", (request, response) => {
 
 app.post("/add-user", (req, res) => {
   const newUserName = req.body;
-  console.log(newUserName);
-  const userNames = { ...newUserName };
-  console.log(userNames);
-  // fs.writeFile("dummy.json", JSON.stringify(jsonFile), (err) => {
-  //   if (err) {
-  //     console.log(err);
-  //     res.send("error happened");
-  //   } else {
-  //     console.log("success");
-  //     res.send("User added successfully");
-  //   }
-  // });
+  userNames.push(newUserName);
+
+  fs.writeFile(
+    "dummy.json",
+    JSON.stringify({ userNames: userNames }),
+    (err) => {
+      if (err) {
+        console.log(err);
+        res.send("error happened");
+      } else {
+        console.log("success");
+        res.send("User added successfully");
+      }
+    }
+  );
 });
 // app.post("delete-user", (req, res) => {
 //   const idToDelete = req.body.id;
