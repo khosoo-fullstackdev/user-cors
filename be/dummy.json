@@ -1,16 +1,1 @@
-{
-  "products": [
-    { "name": "iphone", "price": 1500 },
-    { "name": "samsung", "price": 1800 }
-  ],
-  "users": [
-    { "name": "Khosoo", "age": 22 },
-    { "name": "Bagsh", "age": 30 }
-  ],
-  "userNames": [
-    { "name": "Bagsh" },
-    { "name": "khosoo" },
-    { "name": "andy" },
-    { "name": "tedy" }
-  ]
-}
+{"products":[{"name":"iphone","price":1500},{"name":"samsung","price":1800}],"users":[{"name":"Khosoo","age":22},{"name":"Bagsh","age":30}],"userNames":[{"name":"Bagsh"},{"name":"khosoo"},{"name":"andy"},{"name":"tedy"},{"name":"zxc"},{"name":"asdf"},{"name":"aaaa"}]}

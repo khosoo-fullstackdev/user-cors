@@ -5,68 +5,76 @@
 // const bla = require("bla bla");
 
 const express = require("express");
-const { products, users } = require("./dummy.json");
-const app = express();
-
 const cors = require("cors");
-app.use(cors());
-
 const bodyParser = require("body-parser");
-app.use(bodyParser.json());
+const { userNames } = require("./dummy.json");
 const fs = require("fs");
 
-app.get("/products", (request, response) => {
+const app = express();
+
+app.use(cors());
+
+app.use(bodyParser.json());
+
+app.get("/userNames", (request, response) => {
   response.type = "application/json";
-  response.status(200);
-  response.send({ products });
+  response.send({ userNames });
 });
 
-app.get("/users", (request, response) => {
-  response.type = "application/json";
-  response.send({ abc: users });
-});
+// function writeFile() {
+//   fs.writeFile("dummy.json", JSON.stringify(jsonFile), (err) => {
+//     if (err) {
+//       console.log(err);
+//       res.send("error happened");
+//     } else {
+//       console.log("success");
+//       res.send("User added successfully");
+//     }
+//   });
+// }
 
 app.post("/add-user", (req, res) => {
-  const newUser = req.body;
-  console.log(newUser);
-
-  fs.readFile("dummy.json", (error, data) => {
-    if (error) {
-      console.log("Error in reading file");
-    } else {
-      const jsonFile = JSON.parse(data.toString());
-      jsonFile.users.push(newUser);
-      fs.writeFile("dummy.json", JSON.stringify(jsonFile), (err) => {
-        if (err) {
-          console.log(err);
-          res.send("error happened");
-        } else {
-          console.log("success");
-          res.send("User added successfully");
-        }
-      });
-    }
-  });
-  fs.readFile("dummy.json", (error, data) => {
-    if (error) {
-      console.log("Error in reading file");
-    } else {
-      const jsonFile = JSON.parse(data.toString());
-      jsonFile.users.push(newUser);
-      fs.writeFile("dummy.json", JSON.stringify(jsonFile), (err) => {
-        if (err) {
-          console.log(err);
-          res.send("error happened");
-        } else {
-          console.log("success");
-          res.send("User added successfully");
-        }
-      });
-    }
-  });
+  const newUserName = req.body;
+  console.log(newUserName);
+  const userNames = { ...newUserName };
+  console.log(userNames);
+  // fs.writeFile("dummy.json", JSON.stringify(jsonFile), (err) => {
+  //   if (err) {
+  //     console.log(err);
+  //     res.send("error happened");
+  //   } else {
+  //     console.log("success");
+  //     res.send("User added successfully");
+  //   }
+  // });
 });
+// app.post("delete-user", (req, res) => {
+//   const idToDelete = req.body.id;
+//   fs.writeFile("dummy.json", JSON.stringify(jsonFile), (err) => {
+//     if (err) {
+//       console.log(err);
+//       res.send("error happened");
+//     } else {
+//       console.log("success");
+//       res.send("User added successfully");
+//     }
+//   });
+// });
 
-app.post("/read-new-user", (req, res) => {});
+// app.post("update-user", (req, res) => {
+//   const { id, updateData } = re.body;
+//   fs.writeFile("dummy.json", JSON.stringify(jsonFile), (err) => {
+//     if (err) {
+//       console.log(err);
+//       res.send("error happened");
+//     } else {
+//       console.log("success");
+//       res.send("User added successfully");
+//     }
+//   });
+// });
+
+// const updateData = { ...newUser, ...updateUser };
 
 app.listen(3001, () => {
   console.log("Server is listening at port 3001");
