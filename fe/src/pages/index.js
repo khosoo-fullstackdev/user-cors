@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 export default function Home() {
   const URL = "http://localhost:3001/users";
   const BE_URL = "http://localhost:3001/add-user";
@@ -9,6 +10,7 @@ export default function Home() {
   // const [stats, setStat] = useState("");
   const [users, setUsers] = useState("");
   const [showEdit, setShowEdit] = useState([false, ""]);
+  console.log(users);
 
   // SEE
   async function handleUsers() {
@@ -51,11 +53,8 @@ export default function Home() {
     };
     const FETCHED_DATA = await fetch(DEL_URL, options);
     const FETCHED_JSON = await FETCHED_DATA.json();
-    console.log(FETCHED_JSON);
   }
-  useEffect(() => {
-    handleUsers();
-  }, []);
+  handleUsers();
 
   return (
     <div className="flex flex-col pt-[50px] w-[800px] m-auto gap-[50px]">
@@ -68,33 +67,31 @@ export default function Home() {
           <input type="submit" value="submit"></input>
         </form>
       </div>
-      <div>
-        {users.users.map((e) => {
-          return (
-            <div className="flex m-auto w-80 m-auto gap-10">
-              <p>{e.name}</p>
-              <button
-                className="border-2 p-2"
-                id={nanoid()}
-                onClick={(e) => {
-                  handleDelete(e);
-                }}
-              >
-                Delete
-              </button>
-              <button
-                className="border-2  p-2"
-                id={nanoid()}
-                onClick={(e) => {
-                  setShowEdit([!showEdit[0], e.target.id]);
-                }}
-              >
-                Edit
-              </button>
-            </div>
-          );
-        })}
-      </div>
+      {users.users.map((e) => {
+        return (
+          <div className="flex m-auto w-80 m-auto gap-10">
+            <p>{e.name}</p>
+            <button
+              className="border-2 p-2"
+              id={nanoid()}
+              onClick={(e) => {
+                handleDelete(e);
+              }}
+            >
+              Delete
+            </button>
+            <button
+              className="border-2  p-2"
+              id={nanoid()}
+              onClick={(e) => {
+                setShowEdit([!showEdit[0], e.target.id]);
+              }}
+            >
+              Edit
+            </button>
+          </div>
+        );
+      })}
       <div className="edit"></div>
     </div>
   );
