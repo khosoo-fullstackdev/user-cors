@@ -21,6 +21,7 @@ export default function Home() {
 
   // NEW
   async function handleSubmit(e) {
+    handleUsers();
     e.preventDefault();
     const data = {
       name: e.target.name.value,
@@ -54,7 +55,9 @@ export default function Home() {
     const FETCHED_DATA = await fetch(DEL_URL, options);
     const FETCHED_JSON = await FETCHED_DATA.json();
   }
-  handleUsers();
+  useEffect(() => {
+    handleUsers();
+  });
 
   return (
     <div className="flex flex-col pt-[50px] w-[800px] m-auto gap-[50px]">
