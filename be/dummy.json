@@ -1,9 +1,4 @@
 {
-  "users": [
-    { "id": 6, "userName": "Andy" },
-    { "id": 10, "userName": "BRoskii" },
-    { "id": 11, "userName": "Dash" }
-  ],
   "userNames": [
     { "name": "Bagsh" },
     { "name": "khosoo" },
