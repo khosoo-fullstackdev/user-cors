@@ -1,14 +1,28 @@
-import { nanoid } from "nanoid";
+import React, { useState, useEffect } from "react";
+import Content from "../components/Content.jsx";
+import Edit from "@/components/Edit.jsx";
+
 export default function Home() {
-  const BE_URL = "http://localhost:3001/add-user";
-  const DEL_URL = "http://localhost:3001/userNames";
+  const BE_URL = "http://localhost:4001/add-user";
+  const users_URL = "http://localhost:4001/users";
+  const DEL_URL = "http://localhost:4001/delete-user";
+  const EDIT_URL = "http://localhost:4001/edit-user";
+  const [stat, setStat] = useState("");
+  const [usersState, setUsers] = useState("");
+  const [showEdit, setShowEdit] = useState([false, ""]);
+
+  async function handleUsers() {
+    const FETCH_USER_DATA = await fetch(users_URL);
+    const FETCH_USER_JSON = await FETCH_USER_DATA.json();
+    setUsers(FETCH_USER_JSON);
+  }
 
   async function handleSubmit(e) {
-    e.preventDefault();
+    handleUsers();
     const data = {
-      name: e.target.name.value,
+      id: usersState.users[usersState.users.length - 1].id + 1,
+      userName: e.target.username.value,
     };
-    console.log(data);
     const options = {
       method: "POST",
       headers: {
@@ -16,35 +30,106 @@ export default function Home() {
       },
       body: JSON.stringify(data),
     };
-    const FETCHED_DATA = await fetch(BE_URL, options);
-    const FETCHED_JSON = await FETCHED_DATA.json();
-    console.log(FETCHED_JSON);
+
+    const FETCH_DATA = await fetch(BE_URL, options);
+    const FETCH_JSON = await FETCH_DATA.text();
+    setStat(FETCH_JSON);
   }
 
-  // const users = await fetch(DEL_URL, options);
-  // const FETCHED_JSON = await users.json();
+  async function handleDelete(e) {
+    const data = {
+      id: e.target.id,
+    };
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+    const FETCH_DATA = await fetch(DEL_URL, options);
+  }
 
-  return (
-    <div className="flex flex-col w-[800px] m-auto gap-[50px]">
-      <div className="top m-auto">
-        <form onSubmit={handleSubmit} className="flex gap-[15px]">
-          <label htmlFor="name">
-            Username:
-            <input id="name" name="name" className="text-black" />
-          </label>
-          <input type="submit" value="submit"></input>
-        </form>
-      </div>
-      {/* <div className="bottom m-auto">
-        {userNames.map((a) => {
-          <form onSubmit={handleDelete} className="flex gap-[15px]">
-            <label htmlFor="name" for="name">
-              Username:{a.names}
-            </label>
-            <button type="submit" value="delete"></button>
-          </form>;
-        })}
-      </div> */}
-    </div>
-  );
+  async function handleEdit(e) {
+    console.log("Edit handler working");
+  }
+
+  useEffect(() => {
+    handleUsers();
+  }, []);
+
+  {
+    if (usersState) {
+      console.log("edit status: ", showEdit[0]);
+      return (
+        <div className="flex flex-col justify-center p-10 gap-10">
+          <Content handleSubmit={handleSubmit} />
+          <div className="flex flex-col gap-2">
+            {usersState.users.map((e) => {
+              return (
+                <div className="flex flex-row w-80 justify-end gap-10">
+                  <p>{e.userName}</p>
+                  <button
+                    className="border-2 p-2"
+                    id={e.id}
+                    onClick={(e) => {
+                      console.log("e.target.id: ", e.target.id);
+                      console.log("Delete button pushed");
+                      handleDelete(e);
+                    }}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    className="border-2  p-2"
+                    id={e.id}
+                    onClick={(e) => {
+                      console.log("e.target.id: ", e.target.id);
+                      console.log("Edit button pushed");
+                      // handleEdit(e);
+                      // <Edit id={e.target.id} handleEdit={handleEdit}/>
+                      setShowEdit([!showEdit[0], e.target.id]);
+                      console.log(showEdit);
+                    }}
+                  >
+                    Edit
+                  </button>
+                </div>
+              );
+            })}
+
+            <div className="border-2 p-10">
+              <p>Edit div</p>
+              <form onSubmit={() => console.log("Edit onSubmit working")}>
+                <label htmlFor="editName" for="editName">
+                  <input
+                    id="editName"
+                    name="editName"
+                    placeholder="Enter new name"
+                    className="border-2 border-gray-700"
+                  />
+                </label>
+                <label htmlFor="editId" for="editId">
+                  <input
+                    id="editId"
+                    name="editId"
+                    placeholder="Enter person's id"
+                    className="border-2 border-gray-700"
+                    value={showEdit[1]}
+                  />
+                </label>
+                <input type="submit" value="Submit" />
+              </form>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <Content handleSubmit={handleSubmit} />
+        </div>
+      );
+    }
+  }
 }
