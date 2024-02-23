@@ -22,9 +22,9 @@ export default function Home() {
   // NEW
   async function handleSubmit(e) {
     handleUsers();
-    e.preventDefault();
     const data = {
-      name: e.target.name.value,
+      id: users.users[users.users.length - 1].id + 1,
+      userName: e.target.users.value,
     };
 
     const options = {
@@ -70,31 +70,37 @@ export default function Home() {
           <input type="submit" value="submit"></input>
         </form>
       </div>
-      {users.users.map((e) => {
-        return (
-          <div className="flex m-auto w-80 m-auto gap-10">
-            <p>{e.name}</p>
-            <button
-              className="border-2 p-2"
-              id={nanoid()}
-              onClick={(e) => {
-                handleDelete(e);
-              }}
-            >
-              Delete
-            </button>
-            <button
-              className="border-2  p-2"
-              id={nanoid()}
-              onClick={(e) => {
-                setShowEdit([!showEdit[0], e.target.id]);
-              }}
-            >
-              Edit
-            </button>
-          </div>
-        );
-      })}
+      <div className="flex flex-col m-auto">
+        {users.users.map((e) => {
+          return (
+            <div className="flex m-auto w-80 m-auto gap-10">
+              <p>{e.name}</p>
+              <button
+                className="border-2 p-2"
+                id={() => {
+                  nanoid();
+                }}
+                onClick={(e) => {
+                  handleDelete(e);
+                }}
+              >
+                Delete
+              </button>
+              <button
+                className="border-2  p-2"
+                id={() => {
+                  nanoid();
+                }}
+                onClick={(e) => {
+                  setShowEdit([!showEdit[0], e.target.id]);
+                }}
+              >
+                Edit
+              </button>
+            </div>
+          );
+        })}
+      </div>
       <div className="edit"></div>
     </div>
   );

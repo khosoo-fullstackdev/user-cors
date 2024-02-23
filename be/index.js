@@ -22,8 +22,8 @@ app.get("/users", (request, response) => {
 });
 
 app.post("/add-user", (req, res) => {
-  const newUserName = req.body;
-  users.push(newUserName);
+  const newUser = req.body;
+  users.push(newUser);
 
   fs.writeFile("dummy.json", JSON.stringify({ users: users }), (err) => {
     if (err) {
