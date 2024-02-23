@@ -1,9 +1,8 @@
 {
-  "userNames": [
+  "users": [
     { "name": "Bagsh" },
     { "name": "khosoo" },
     { "name": "andy" },
-    { "name": "tedy" },
-    { "name": "aaaa" }
+    { "name": "tedy" }
   ]
 }
