@@ -55,6 +55,24 @@ export default function Home() {
     const FETCHED_DATA = await fetch(DEL_URL, options);
     const FETCHED_JSON = await FETCHED_DATA.json();
   }
+
+  async function handleEdit(e) {
+    e.preventDefault();
+    const data = {
+      name: e.target.name.value,
+    };
+    console.log(data);
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+    const FETCHED_DATA = await fetch(EDIT_URL, options);
+    const FETCHED_JSON = await FETCHED_DATA.json();
+  }
+
   useEffect(() => {
     handleUsers();
   });
@@ -92,7 +110,7 @@ export default function Home() {
                   nanoid();
                 }}
                 onClick={(e) => {
-                  setShowEdit([!showEdit[0], e.target.id]);
+                  setShowEdit([!showEdit, e.target.id]);
                 }}
               >
                 Edit

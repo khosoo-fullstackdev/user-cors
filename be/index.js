@@ -37,10 +37,10 @@ app.post("/add-user", (req, res) => {
 });
 
 app.post("/delete-user", (req, res) => {
-  let deletedDummy = dummyData.users.filter((user) => {
+  let deletedUsers = dummyData.users.filter((user) => {
     return user.id != req.body.id;
   });
-  fs.writeFile("dummy.json", JSON.stringify({ users: deletedDummy }), (err) => {
+  fs.writeFile("dummy.json", JSON.stringify({ users: deletedUsers }), (err) => {
     if (err) {
       console.log(err);
       res.send("Error happened when write file");
@@ -52,13 +52,13 @@ app.post("/delete-user", (req, res) => {
 });
 
 app.post("/edit-user", (req, res) => {
-  let editedDummy = dummyData.users.map((user) => {
+  let editedUsers = dummyData.users.map((user) => {
     if (user.id == req.body.id) {
       return user.id != req.body.id;
     }
   });
 
-  fs.writeFile("dummy.json", JSON.stringify({ users: editedDummy }), (err) => {
+  fs.writeFile("dummy.json", JSON.stringify({ users: editedUsers }), (err) => {
     if (err) {
       console.log(err);
       res.send("Error happened when write file");
